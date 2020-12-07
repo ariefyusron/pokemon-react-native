@@ -1,0 +1,60 @@
+{
+  "name": "boilerplate",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "react-native start --reset-cache",
+    "test": "jest",
+    "lint": "tsc && eslint --ext .js,.ts,.tsx src --cache",
+    "android": "react-native run-android",
+    "android:release": "react-native run-android --variant=release",
+    "ios": "react-native run-ios",
+    "bundle:ios": "react-native bundle --minify --entry-file index.js --platform ios --dev false --bundle-output ./ios/main.jsbundle --assets-dest ./ios",
+    "bundle:android": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
+    "build:apk": "cd ./android && ./gradlew clean app:assembleRelease",
+    "build:aab": "cd ./android && ./gradlew clean app:bundleRelease"
+  },
+  "dependencies": {
+    "@react-native-community/async-storage": "^1.6.1",
+    "@react-native-community/masked-view": "^0.1.6",
+    "@react-navigation/native": "^5.7.3",
+    "@react-navigation/stack": "^5.9.0",
+    "axios": "^0.19.2",
+    "react": "16.13.1",
+    "react-native": "0.63.3",
+    "react-native-gesture-handler": "^1.5.6",
+    "react-native-i18n": "^2.0.15",
+    "react-native-reanimated": "^1.7.0",
+    "react-native-safe-area-context": "^0.7.2",
+    "react-native-screens": "^2.0.0-beta.2",
+    "react-redux": "^7.1.0",
+    "redux": "^4.0.4",
+    "redux-logger": "^3.0.6",
+    "redux-persist": "^5.10.0",
+    "redux-thunk": "^2.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/runtime": "^7.8.4",
+    "@react-native-community/eslint-config": "^1.1.0",
+    "@types/jest": "^24.0.25",
+    "@types/react": "^16.9.19",
+    "@types/react-native": "^0.61.12",
+    "@types/react-native-i18n": "^2.0.0",
+    "@types/react-redux": "^7.1.5",
+    "@types/react-test-renderer": "^16.9.1",
+    "@types/redux-logger": "^3.0.7",
+    "babel-jest": "^25.1.0",
+    "babel-plugin-transform-remove-console": "^6.9.4",
+    "eslint": "^6.5.1",
+    "eslint-config-react-native-wcandillon": "^2.3.4",
+    "husky": "^3.0.4",
+    "jest": "^25.1.0",
+    "metro-react-native-babel-preset": "^0.59.0",
+    "react-test-renderer": "16.13.1",
+    "typescript": "^4.0.3"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
