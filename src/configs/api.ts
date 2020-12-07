@@ -15,6 +15,7 @@ const host = axios.create({
 const api = {
   getAllPokemon: () => host.get("pokemon?limit=1118"),
   getDetailPokemon: (id: string) => host.get(`pokemon/${id}`),
+  getAllType: () => host.get("type"),
 };
 
 export default api;

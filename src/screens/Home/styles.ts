@@ -66,6 +66,21 @@ const styles = StyleSheet.create({
   textHeader: {
     fontSize: 24,
   },
+  wrapType: {
+    height: scale(10),
+    marginVertical: scale(2),
+  },
+  buttonType: {
+    backgroundColor: COLORS.black01,
+    alignItems: "center",
+    justifyContent: "center",
+    width: scale(28),
+    borderRadius: scale(2),
+    marginHorizontal: scale(2),
+  },
+  wrapLoadingType: {
+    height: scale(20),
+  },
 });
 
 export default styles;

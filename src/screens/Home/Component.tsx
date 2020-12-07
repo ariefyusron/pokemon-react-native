@@ -1,8 +1,15 @@
-import React, { useCallback, useEffect } from "react";
-import { ActivityIndicator, FlatList, Image, Text, View } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getPokemon } from "../../redux/actions";
+import { getAllPokemon, getAllType } from "../../redux/actions";
 import { Reducers } from "../../redux/types";
 import { COLORS } from "../../configs";
 
@@ -11,10 +18,12 @@ import styles from "./styles";
 const Component = () => {
   const dispatch = useDispatch();
 
+  const [activeType, setActiveType] = useState("all");
   const homeState = useSelector((state: Reducers) => state.home);
 
   useEffect(() => {
-    dispatch(getPokemon());
+    dispatch(getAllPokemon());
+    dispatch(getAllType());
   }, [dispatch]);
 
   const _renderLoading = useCallback(
@@ -83,14 +92,52 @@ const Component = () => {
     [_renderLoading]
   );
 
+  const _renderItemType = useCallback(
+    ({ item }: { item: any }) => (
+      <TouchableOpacity
+        style={[
+          styles.buttonType,
+          item.name === activeType && { backgroundColor: COLORS.black03 },
+        ]}
+        onPress={() => setActiveType(item.name)}
+      >
+        <Text>{item.name}</Text>
+      </TouchableOpacity>
+    ),
+    [activeType]
+  );
+
+  const _dataPokemon = useCallback(() => {
+    if (activeType === "all") {
+      return homeState.listPokemon;
+    }
+    return homeState.listPokemon.filter(
+      (item) =>
+        item.types.findIndex((e: any) => e.type.name === activeType) >= 0
+    );
+  }, [activeType, homeState.listPokemon]);
+
   return (
     <View style={styles.container}>
       <View style={styles.wrapHeader}>
         <Text style={styles.textHeader}>Pokemon</Text>
       </View>
-      {!homeState.isLoading ? (
+      {!homeState.isLoadingType ? (
+        <View style={styles.wrapType}>
+          <FlatList
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={homeState.listType}
+            keyExtractor={(item, index) => String(index)}
+            renderItem={_renderItemType}
+          />
+        </View>
+      ) : (
+        <View style={styles.wrapLoadingType}>{_renderLoading()}</View>
+      )}
+      {!homeState.isLoadingPokemon ? (
         <FlatList
-          data={homeState.list}
+          data={_dataPokemon()}
           keyExtractor={(item, index) => String(index)}
           renderItem={_renderItem}
           ListFooterComponent={() => (

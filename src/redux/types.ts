@@ -23,6 +23,8 @@ export interface Reducers {
 }
 
 export interface HomeState {
-  isLoading: boolean;
-  list: any[];
+  isLoadingPokemon: boolean;
+  listPokemon: any[];
+  isLoadingType: boolean;
+  listType: any[];
 }
