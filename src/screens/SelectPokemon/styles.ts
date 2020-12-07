@@ -4,9 +4,23 @@ import { COLORS } from "../../configs";
 import { scale } from "../../utils";
 
 const styles = StyleSheet.create({
-  header: {
+  container: {
+    flex: 1,
+    backgroundColor: COLORS.background,
+  },
+  wrapLoading: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  row: {
+    paddingHorizontal: scale(4),
+  },
+  card: {
     width: "100%",
+    borderRadius: scale(4),
     padding: scale(4),
+    marginVertical: scale(2),
     overflow: "hidden",
     flexDirection: "row",
     alignItems: "center",
@@ -37,49 +51,34 @@ const styles = StyleSheet.create({
     width: "120%",
     height: "120%",
   },
-  body: {
-    paddingHorizontal: scale(4),
-    marginVertical: scale(4),
-  },
-  card: {
-    backgroundColor: COLORS.white,
-    padding: scale(4),
-    borderRadius: scale(4),
+  wrapFooter: {
     width: "100%",
-    marginTop: scale(2),
+    paddingVertical: scale(10),
   },
-  wrapCard: {
+  wrapHeader: {
+    backgroundColor: COLORS.background,
+    height: scale(16),
+    width: "100%",
+    justifyContent: "space-between",
     alignItems: "center",
-  },
-  wrapItemStats: {
+    paddingHorizontal: scale(4),
+    elevation: 1,
     flexDirection: "row",
+  },
+  textHeader: {
+    fontSize: 24,
+  },
+  wrapType: {
+    height: scale(10),
     marginVertical: scale(2),
-    alignItems: "center",
   },
-  wrapSizeStats: {
-    height: scale(6),
-    width: "53%",
-    flexDirection: "row",
-  },
-  sizeStats: {
-    borderTopRightRadius: scale(2),
-    borderBottomRightRadius: scale(2),
-    height: "100%",
-  },
-  buttonBack: {
-    paddingHorizontal: scale(4),
-    paddingVertical: scale(2),
-  },
-  wrapButtonCompare: {
-    width: "100%",
-    alignItems: "center",
-    marginVertical: scale(20),
-  },
-  buttonCompare: {
-    paddingHorizontal: scale(10),
-    paddingVertical: scale(2),
-    borderRadius: scale(2),
+  buttonType: {
     backgroundColor: COLORS.black01,
+    alignItems: "center",
+    justifyContent: "center",
+    width: scale(28),
+    borderRadius: scale(2),
+    marginHorizontal: scale(2),
   },
 });
 

@@ -6,6 +6,7 @@ import {
 
 import Home from "../screens/Home";
 import Detail from "../screens/Detail";
+import SelectPokemon from "../screens/SelectPokemon";
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -16,6 +17,11 @@ const Stack = () => (
   >
     <Screen name="Home" component={Home} options={{ header: () => null }} />
     <Screen name="Detail" component={Detail} options={{ header: () => null }} />
+    <Screen
+      name="SelectPokemon"
+      component={SelectPokemon}
+      options={{ header: () => null }}
+    />
   </Navigator>
 );
 
