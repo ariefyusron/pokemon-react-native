@@ -1,5 +1,5 @@
 const env = {
-  host: "https://api-football-v1.p.rapidapi.com",
+  host: "https://pokeapi.co/api/v2",
 };
 
 export default env;

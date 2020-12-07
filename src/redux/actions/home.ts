@@ -1,35 +1,58 @@
 import { Dispatch } from "../types";
 import { API } from "../../configs";
 
-export const ADD_DATA = "ADD_DATA";
-export const DELETE_DATA = "DELETE_DATA";
+// get pokemons
+export const GET_ALL_POKEMON_PENDING = "GET_ALL_POKEMON_PENDING";
+export const GET_ALL_POKEMON_SUCCESS = "GET_ALL_POKEMON_SUCCESS";
+export const GET_ALL_POKEMON_ERROR = "GET_ALL_POKEMON_ERROR";
 
-// get seasons
-export const GET_SEASON_PENDING = "GET_SEASON_PENDING";
-export const GET_SEASON_SUCCESS = "GET_SEASON_SUCCESS";
-export const GET_SEASON_ERROR = "GET_SEASON_ERROR";
+export const GET_DETAIL_POKEMON_PENDING = "GET_DETAIL_POKEMON_PENDING";
+export const GET_DETAIL_POKEMON_SUCCESS = "GET_DETAIL_POKEMON_SUCCESS";
+export const GET_DETAIL_POKEMON_ERROR = "GET_DETAIL_POKEMON_ERROR";
 
-export const addData = (data: string) => (dispatch: Dispatch) => {
-  dispatch({ type: ADD_DATA, payload: { data } });
-};
-
-export const deleteData = (data: number) => (dispatch: Dispatch) => {
-  dispatch({ type: DELETE_DATA, payload: { data } });
-};
-
-export const getSeasons = () => async (dispatch: Dispatch) => {
+export const getDetailPokemon = (id: string, index: number) => async (
+  dispatch: Dispatch
+) => {
   try {
-    dispatch({ type: GET_SEASON_PENDING });
-    const res = await API.getSeasons();
+    dispatch({ type: GET_DETAIL_POKEMON_PENDING, payload: { index } });
+    const res = await API.getDetailPokemon(id);
     dispatch({
-      type: GET_SEASON_SUCCESS,
-      payload: { data: res.data.api.seasons },
+      type: GET_DETAIL_POKEMON_SUCCESS,
+      payload: { data: res.data, index },
     });
   } catch (err) {
     if (err.response) {
-      dispatch({ type: GET_SEASON_ERROR, payload: { data: err.response } });
+      dispatch({
+        type: GET_DETAIL_POKEMON_ERROR,
+        payload: { data: err.response, index },
+      });
     } else {
-      dispatch({ type: GET_SEASON_ERROR });
+      dispatch({ type: GET_DETAIL_POKEMON_ERROR, payload: { index } });
+    }
+  }
+};
+
+export const getPokemon = () => async (dispatch: Dispatch) => {
+  try {
+    dispatch({ type: GET_ALL_POKEMON_PENDING });
+    const res = await API.getAllPokemon();
+    dispatch({
+      type: GET_ALL_POKEMON_SUCCESS,
+      payload: { data: res.data.results },
+    });
+
+    res.data.results.forEach((item: any, index: number) => {
+      const id = item.url.split("/")[item.url.split("/").length - 2];
+      dispatch(getDetailPokemon(id, index));
+    });
+  } catch (err) {
+    if (err.response) {
+      dispatch({
+        type: GET_ALL_POKEMON_ERROR,
+        payload: { data: err.response },
+      });
+    } else {
+      dispatch({ type: GET_ALL_POKEMON_ERROR });
     }
   }
 };

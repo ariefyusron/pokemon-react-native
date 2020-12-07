@@ -1,35 +1,47 @@
 import {
-  ADD_DATA,
-  DELETE_DATA,
-  GET_SEASON_ERROR,
-  GET_SEASON_PENDING,
-  GET_SEASON_SUCCESS,
+  GET_ALL_POKEMON_ERROR,
+  GET_ALL_POKEMON_PENDING,
+  GET_ALL_POKEMON_SUCCESS,
+  GET_DETAIL_POKEMON_ERROR,
+  GET_DETAIL_POKEMON_PENDING,
+  GET_DETAIL_POKEMON_SUCCESS,
 } from "../actions";
 import { Action, HomeState } from "../types";
 
 const initialState: HomeState = {
-  data: [],
-  isLoadingGetSeason: false,
-  listSeasons: [],
+  isLoading: false,
+  list: [],
 };
+
+let result: any;
 
 export default (state = initialState, { type, payload }: Action) => {
   switch (type) {
-    case ADD_DATA:
-      return { ...state, data: [payload.data, ...state.data] };
-    case DELETE_DATA:
-      return {
-        ...state,
-        data: state.data.filter((data, index) => index !== payload.data),
-      };
+    // get pokemons
+    case GET_ALL_POKEMON_PENDING:
+      return { ...state, isLoading: true };
+    case GET_ALL_POKEMON_SUCCESS:
+      return { ...state, isLoading: false, list: payload.data };
+    case GET_ALL_POKEMON_ERROR:
+      return { ...state, isLoading: false };
 
-    // get season
-    case GET_SEASON_PENDING:
-      return { ...state, isLoadingGetSeason: true };
-    case GET_SEASON_SUCCESS:
-      return { ...state, isLoadingGetSeason: false, listSeasons: payload.data };
-    case GET_SEASON_ERROR:
-      return { ...state, isLoadingGetSeason: false };
+    // get detail pokemons
+    case GET_DETAIL_POKEMON_PENDING:
+      result = [...state.list];
+      result[payload.index!] = { ...result[payload.index!], isLoading: true };
+      return { ...state, list: result };
+    case GET_DETAIL_POKEMON_SUCCESS:
+      result = [...state.list];
+      result[payload.index!] = {
+        ...result[payload.index!],
+        ...payload.data,
+        isLoading: false,
+      };
+      return { ...state, list: result };
+    case GET_DETAIL_POKEMON_ERROR:
+      result = [...state.list];
+      result[payload.index!] = { ...result[payload.index!], isLoading: false };
+      return { ...state, list: result };
 
     default:
       return state;

@@ -1,6 +1,7 @@
 // Action
 interface Payload {
   data?: any;
+  index?: number;
 }
 
 interface Params {
@@ -22,7 +23,6 @@ export interface Reducers {
 }
 
 export interface HomeState {
-  data: any[];
-  isLoadingGetSeason: boolean;
-  listSeasons: any[];
+  isLoading: boolean;
+  list: any[];
 }
