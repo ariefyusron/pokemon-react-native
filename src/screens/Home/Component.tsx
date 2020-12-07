@@ -3,11 +3,13 @@ import {
   ActivityIndicator,
   FlatList,
   Image,
+  StatusBar,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 
 import { getAllPokemon, getAllType } from "../../redux/actions";
 import { Reducers } from "../../redux/types";
@@ -17,6 +19,7 @@ import styles from "./styles";
 
 const Component = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const [activeType, setActiveType] = useState("all");
   const homeState = useSelector((state: Reducers) => state.home);
@@ -35,13 +38,19 @@ const Component = () => {
     []
   );
 
+  const _getId = useCallback(
+    (url: string) => homeState.listPokemon.findIndex((e) => e.url === url) + 1,
+    [homeState.listPokemon]
+  );
+
   const _renderItem = useCallback(
-    ({ item, index }: { item: any; index: number }) => {
+    ({ item }: { item: any }) => {
       const color = COLORS as any;
 
       return (
         <View style={styles.row}>
-          <View
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Detail", { url: item.url })}
             style={[
               styles.card,
               {
@@ -51,7 +60,7 @@ const Component = () => {
           >
             <View style={{ flex: 1 }}>
               <View style={styles.wrapTitle}>
-                <Text>{`#${String(index).padStart(4, "0")}`}</Text>
+                <Text>{`#${String(_getId(item.url)).padStart(4, "0")}`}</Text>
                 <Text style={styles.marginLeft}>{item.name}</Text>
               </View>
               <View style={styles.wrapTitle}>
@@ -85,11 +94,11 @@ const Component = () => {
                 />
               )}
             </View>
-          </View>
+          </TouchableOpacity>
         </View>
       );
     },
-    [_renderLoading]
+    [_getId, _renderLoading, navigation]
   );
 
   const _renderItemType = useCallback(
@@ -119,6 +128,7 @@ const Component = () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor={COLORS.background} barStyle="dark-content" />
       <View style={styles.wrapHeader}>
         <Text style={styles.textHeader}>Pokemon</Text>
       </View>

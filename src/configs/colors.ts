@@ -1,6 +1,7 @@
 const colors = {
   background: "#ecf0f1",
   white06: "rgba(255, 255, 255, 0.6)",
+  white: "#fff",
   black01: "rgba(0, 0, 0, 0.1)",
   black03: "rgba(0, 0, 0, 0.3)",
   black: "#000",
